@@ -71,6 +71,14 @@ const Home = () => {
                     </div>
                   </DropdownMenuItem>
                 ))}
+                <DropdownMenuItem>
+                  <a
+                    href="https://drive.google.com/file/d/1EjwBGFmeEV010fhoKIUrhc-0fhuaKeRa/view?usp=sharing"
+                    target="_blank"
+                  >
+                    Resume
+                  </a>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -80,6 +88,14 @@ const Home = () => {
                 {section}
               </div>
             ))}
+            <div>
+              <a
+                href="https://drive.google.com/file/d/1EjwBGFmeEV010fhoKIUrhc-0fhuaKeRa/view?usp=sharing"
+                target="_blank"
+              >
+                Resume
+              </a>
+            </div>
           </div>
         </div>
       </div>
