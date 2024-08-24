@@ -20,7 +20,7 @@ const ChatBot = () => {
     setMessages((messages) => [...messages, { message: query, isBot: false }]);
     setQuery("");
 
-    const stream = await fetch("http://localhost:3000/query", {
+    const stream = await fetch(`${import.meta.env.VITE_BACKEND_URL}/query`, {
       method: "POST",
       body: JSON.stringify({
         message: query,
