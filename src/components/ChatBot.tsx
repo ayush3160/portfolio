@@ -1,10 +1,61 @@
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { CiChat2 } from "react-icons/ci";
 import { FaX } from "react-icons/fa6";
 import { FaRobot } from "react-icons/fa";
 
 const ChatBot = () => {
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState<boolean>(false);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [messages, setMessages] = useState([
+    {
+      message:
+        " Hi there! 😊 I'm Ayushi, Ayush's best friend. Feel free to ask me anything about him! 🗣️",
+      isBot: true,
+    },
+  ]);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [query, setQuery] = useState("");
+
+  async function handleSubmit() {
+    setMessages((messages) => [...messages, { message: query, isBot: false }]);
+    setQuery("");
+
+    const stream = await fetch("http://localhost:3000/query", {
+      method: "POST",
+      body: JSON.stringify({
+        message: query,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    setIsStreaming((isStreaming) => !isStreaming);
+
+    const reader = stream?.body?.getReader();
+    const decoder = new TextDecoder();
+
+    let accumulatedMessage = "";
+    while (true) {
+      const { done, value } = reader
+        ? await reader.read()
+        : { done: true, value: undefined };
+
+      if (done) {
+        setIsStreaming((isStreaming) => !isStreaming);
+        setMessages((messages) => [
+          ...messages,
+          { message: accumulatedMessage, isBot: true },
+        ]);
+        setNewMessage("");
+        break;
+      }
+
+      const decodedChunk = decoder.decode(value, { stream: true });
+      accumulatedMessage += decodedChunk;
+      setNewMessage(accumulatedMessage);
+    }
+  }
 
   return (
     <div>
@@ -12,7 +63,7 @@ const ChatBot = () => {
         <div className="fixed bottom-20 right-5 z-50 rounded-lg">
           <div
             id="chat-screen"
-            className="mt-3 w-80 bg-white rounded-lg shadow-lg"
+            className="mt-3 w-80 bg-white rounded-lg shadow-lg overlay-auto"
             style={{ height: "30rem" }}
           >
             <div
@@ -25,25 +76,49 @@ const ChatBot = () => {
               <FaRobot size={25} color="white" />
               <span className="text-white font-bold ml-2 mt-0.5">AyushBot</span>
             </div>
-            <div className="p-2" style={{ height: "80%" }}>
-              <div className="mt-1 message my-message float-left">
-                <p>
-                  Hi there! 😊 I'm Ayushi, Ayush's best friend. Feel free to ask
-                  me anything about him! 🗣️
-                </p>
-              </div>
-              <div className="mt-1 message other-message float-right">
-                <p>
-                  Hi there! 😊 I'm Ayushi, Ayush's best friend. Feel free to ask
-                  me anything about him! 🗣️
-                </p>
-              </div>
+            <div
+              className="p-2"
+              style={{
+                height: "80%",
+                overflowY: "auto",
+                overflowX: "hidden",
+                wordWrap: "break-word",
+              }}
+            >
+              {messages.map((message) => {
+                return (
+                  <div
+                    className={`mt-1 message  ${
+                      message.isBot
+                        ? "my-message float-left"
+                        : "other-message float-right"
+                    }`}
+                  >
+                    <p>{message.message}</p>
+                  </div>
+                );
+              })}
+
+              {isStreaming && (
+                <div className="mt-1 message my-message float-left">
+                  <p id="newMessage">{newMessage}</p>
+                </div>
+              )}
             </div>
             <div className="px-2">
               <input
                 type="text"
                 placeholder="Type your message..."
+                value={query}
                 className="w-full p-2 border rounded-lg focus:outline-none"
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+                onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
+                  if (event.keyCode === 13) {
+                    handleSubmit();
+                  }
+                }}
               />
             </div>
           </div>
