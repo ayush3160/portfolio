@@ -3,7 +3,6 @@ import Hackmate from "@/assets/Hackmate.avif";
 // import OneMed from "@/assets/OneMed.jpg";
 // import CompileMe from "@/assets/CompileMe.webp";
 import DashBoard from "@/assets/Dashboard.jpg";
-// import ChatBot from "@/assets/ChatBot.jpg";
 // import Summarizer from "@/assets/Summarizer.webp";
 // import Messenger from "@/assets/Messenger.avif";
 
@@ -66,4 +65,14 @@ export const experiences = [
       "Contributed to the improvement of the company’s e-commerce site by optimizing its performance and user experience. Focused on reducing the initial build time, leading to faster load times and a more seamless shopping experience for customers.",
     ],
   },
+  {
+    company: "Keploy",
+    role: "Software Developer Intern",
+    timePeriod: "September 2024 - Present",
+    points: [
+      "Enhanced the VS Code extension for Keploy by resolving 5 critical issues and executing 3 , new features, including the automatic update mechanism and seamless integration of test execution directly through the extension.",
+      "Significantly increased test coverage from 14% to 50% through comprehensive unit tests, leading to improved stability and reliability of the extension. Utilized Mocha and vscode-test for unit test cases",
+      "Actively contributed to the Keploy core repository simplifying the installation process by fixing the one-click installation feature, adding go-linter in workflows and solving bugs in pipeline mysql-pipeline",
+    ],
+  }
 ];

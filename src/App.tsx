@@ -1,5 +1,4 @@
 import Aboutme from "./components/Aboutme";
-import ChatBot from "./components/ChatBot";
 import Contact from "./components/Contact";
 import Experience from "./components/Experience";
 import Home from "./components/Home";
@@ -11,9 +10,6 @@ import TechStack from "./components/TechStack";
 const App = () => {
   return (
     <div className="px-10 py-3 main">
-      <div id="chatbot">
-        <ChatBot />
-      </div>
       <div id="home">
         <Home />
       </div>
