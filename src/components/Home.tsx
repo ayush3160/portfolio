@@ -73,7 +73,7 @@ const Home = () => {
                 ))}
                 <DropdownMenuItem>
                   <a
-                    href="https://drive.google.com/file/d/1EjwBGFmeEV010fhoKIUrhc-0fhuaKeRa/view?usp=sharing"
+                    href="https://dub.sh/ayush-resume"
                     target="_blank"
                   >
                     Resume
